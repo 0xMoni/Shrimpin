@@ -12,7 +12,10 @@ Controls:
     q - Quit
     c - Recalibrate
 """
+import time 
 
+
+from collections import deque
 import cv2
 import mediapipe as mp
 from mediapipe.tasks.python import vision as mp_vision
@@ -55,9 +58,9 @@ SKELETON_CONNECTIONS = [
 # ---------------------------------------------------------------------------
 
 SENSITIVITY = {
-    "strict":  (0.05, 0.02, 8),
-    "normal":  (0.08, 0.04, 10),
-    "relaxed": (0.12, 0.06, 15),
+    "strict":  (0.04, 0.015, 0.015, 0.015,  12, 0.50),
+    "normal":  (0.06, 0.020, 0.020, 0.020,  15, 0.55),
+    "relaxed": (0.10, 0.035, 0.030, 0.030,  20, 0.60),
 }
 
 # ---------------------------------------------------------------------------
@@ -121,35 +124,44 @@ class PostureDetector:
     CALIBRATION_FRAMES = 45
 
     def __init__(self, sensitivity="normal"):
-        self.calibrated             = False
-        self.calibration_data       = []
-        self.calibration_tilt_data  = []
-        self.calibration_wait_start = None
-        self.baseline_ratio         = None
-        self.baseline_tilt          = None
-        self.entry_threshold        = 999.0
-        self.exit_threshold         = 999.0
-        self.required_frames        = 10
-        self.is_shrimping           = False
-        self.consecutive_bad        = 0
+        self.baseline_ratio = None
+        self.baseline_fwd = None
+        self.baseline_drop = None
+        self.baseline_tilt = None
+
+        self.entry_ratio = 999.0
+        self.exit_ratio = 999.0
+        self.entry_fwd = 999.0
+        self.exit_fwd = 999.0
+        self.entry_drop = 999.0
+        self.exit_drop = 999.0
+        self.entry_tilt = 999.0
+        self.exit_tilt = 999.0
+        self.window = deque(maxlen=15)
+        self.is_shrimping = False
         self.shrimp_count           = 0
         self.bad_posture_start      = None
         self.set_sensitivity(sensitivity)
+        self.reset_calibration()
 
     def set_sensitivity(self, level):
         self.sensitivity = level
-        entry_off, exit_off, req = SENSITIVITY[level]
-        self.required_frames = req
+        ratio_off, _, _, _, req_frames, _ = SENSITIVITY[level]
+        self.required_frames = req_frames
         if self.baseline_ratio is not None:
-            self.entry_threshold = self.baseline_ratio + entry_off
-            self.exit_threshold  = self.baseline_ratio + exit_off
+            self.entry_threshold = self.baseline_ratio + ratio_off
+            self.exit_threshold  = self.baseline_ratio + ratio_off * 0.5
 
     def reset_calibration(self):
         self.calibrated             = False
         self.calibration_data       = []
+        self.calibration_fwd_data   = []
+        self.calibration_drop_data  = []
         self.calibration_tilt_data  = []
         self.calibration_wait_start = None
         self.baseline_ratio         = None
+        self.baseline_fwd           = None
+        self.baseline_drop          = None
         self.baseline_tilt          = None
         self.entry_threshold        = 999.0
         self.exit_threshold         = 999.0
@@ -167,6 +179,19 @@ class PostureDetector:
             return 999.0
         return eyes_to_nose / nose_to_shoulder
 
+    def _calc_shoulder_drop(self, lm):
+        """Shoulder Y / Hip Y ratio. Increases when you slouch."""
+        shoulder_mid_y = (lm[LEFT_SHOULDER].y + lm[RIGHT_SHOULDER].y) / 2.0
+        hip_mid_y = (lm[LEFT_HIP].y + lm[RIGHT_HIP].y) / 2.0
+        if hip_mid_y <= 0.001:
+            return 0.0
+        return shoulder_mid_y / hip_mid_y
+
+    def _calc_head_forward(self,lm):
+        avg_ear = (lm[LEFT_EAR].x + lm[RIGHT_EAR].x)/2
+        avg_shoulder = (lm[LEFT_SHOULDER].x + lm[RIGHT_SHOULDER].x)/2
+        return ((abs(avg_ear-avg_shoulder)))
+
     def _calc_sideways_tilt(self, lm):
         return abs(lm[LEFT_EAR].y - lm[RIGHT_EAR].y)
 
@@ -181,54 +206,70 @@ class PostureDetector:
         now = time.time()
         if self.calibration_wait_start is None:
             self.calibration_wait_start = now
-
         if now - self.calibration_wait_start < self.CALIBRATION_WAIT:
             return False
 
         self.calibration_data.append(self._calc_shrimp_ratio(lm))
+        self.calibration_fwd_data.append(self._calc_head_forward(lm))
         self.calibration_tilt_data.append(self._calc_sideways_tilt(lm))
+        self.calibration_drop_data.append(self._calc_shoulder_drop(lm))
 
         if len(self.calibration_data) >= self.CALIBRATION_FRAMES:
-            self.baseline_ratio = sum(self.calibration_data) / len(self.calibration_data)
-            self.baseline_tilt  = sum(self.calibration_tilt_data) / len(self.calibration_tilt_data)
-            entry_off, exit_off, _ = SENSITIVITY[self.sensitivity]
-            self.entry_threshold = self.baseline_ratio + entry_off
-            self.exit_threshold  = self.baseline_ratio + exit_off
-            self.calibrated      = True
-            return True
+            avg = lambda lst: sum(lst) / len(lst)
+            self.baseline_ratio = avg(self.calibration_data)
+            self.baseline_fwd   = avg(self.calibration_fwd_data)
+            self.baseline_tilt  = avg(self.calibration_tilt_data)
+            self.baseline_drop  = avg(self.calibration_drop_data)
 
+            ratio_off, fwd_off, drop_off, tilt_off, _, _ = SENSITIVITY[self.sensitivity]
+            self.entry_ratio = self.baseline_ratio + ratio_off
+            self.exit_ratio  = self.baseline_ratio + ratio_off * 0.5
+            self.entry_fwd   = self.baseline_fwd   + fwd_off
+            self.exit_fwd    = self.baseline_fwd   + fwd_off  * 0.5
+            self.entry_drop  = self.baseline_drop  + drop_off
+            self.exit_drop   = self.baseline_drop  + drop_off * 0.5
+            self.entry_tilt  = self.baseline_tilt  + tilt_off
+            self.exit_tilt   = self.baseline_tilt  + tilt_off * 0.5
+
+            self.calibrated = True
+            return True
         return False
 
     def analyze_posture(self, lm):
         ratio = self._calc_shrimp_ratio(lm)
-        tilt  = self._calc_sideways_tilt(lm)
+        fwd = self._calc_head_forward(lm)
+        drop = self._calc_shoulder_drop(lm)
+        tilt = self._calc_sideways_tilt(lm)
 
-        entry_off, exit_off, _ = SENSITIVITY[self.sensitivity]
-        forward_bad  = ratio > (self.exit_threshold  if self.is_shrimping else self.entry_threshold)
-        sideways_bad = tilt  > (self.baseline_tilt + exit_off if self.is_shrimping else self.baseline_tilt + entry_off)
-        is_bad = forward_bad or sideways_bad
-
-        if is_bad:
-            self.consecutive_bad += 1
+        if self.is_shrimping:
+            # tighter exit thresholds to stay flagged
+            is_bad = (ratio > self.exit_ratio or fwd > self.exit_fwd
+                    or drop > self.exit_drop or tilt > self.exit_tilt)
         else:
-            self.consecutive_bad = 0
+            # entry thresholds
+            is_bad = (ratio > self.entry_ratio or fwd > self.entry_fwd
+                    or drop > self.entry_drop or tilt > self.entry_tilt)
 
-        if not self.is_shrimping and self.consecutive_bad >= self.required_frames:
-            self.is_shrimping    = True
-            self.consecutive_bad = 0
-            self.shrimp_count   += 1
-            self.bad_posture_start = time.time()
+        self.window.append(is_bad)
 
-        if self.is_shrimping and self.consecutive_bad == 0 and ratio <= self.exit_threshold:
-            self.is_shrimping      = False
-            self.bad_posture_start = None
+        if len(self.window) >= self.window.maxlen:
+            bad_frac = sum(self.window) / len(self.window)
+
+            if not self.is_shrimping and bad_frac >= 0.55:
+                self.is_shrimping = True
+                self.shrimp_count += 1
+                self.bad_posture_start = time.time()
+
+            elif self.is_shrimping and bad_frac < 0.25:
+                self.is_shrimping = False
+                self.bad_posture_start = None
 
         return {
-            "is_shrimping":    self.is_shrimping,
-            "shrimp_count":    self.shrimp_count,
-            "ratio":           ratio,
-            "entry_threshold": self.entry_threshold,
-            "baseline_ratio":  self.baseline_ratio,
+            "is_shrimping": self.is_shrimping,
+            "shrimp_count": self.shrimp_count,
+            "ratio": ratio,
+            "entry_threshold": self.entry_ratio,
+            "baseline_ratio": self.baseline_ratio,
         }
 
     def draw_skeleton(self, frame, lm, is_bad):

@@ -31,34 +31,30 @@
     position: relative;
   }
 
-  /* ═══ WATER BACKGROUND ═══ */
   canvas#water {
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
     z-index: 0;
     pointer-events: none;
   }
 
-  /* ═══ MAIN LAYOUT ═══ */
   .app {
     position: relative;
     z-index: 10;
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px 48px;
   }
 
-  /* ═══ TOP BAR ═══ */
+  /* ── TOP BAR ── */
   .top-bar {
     width: 100%;
     display: flex;
     align-items: flex-start;
-    justify-content: space-between;
+    justify-content: flex-start;
     margin-bottom: 10px;
   }
 
@@ -70,62 +66,28 @@
   }
 
   .status-dot {
-    width: 10px;
-    height: 10px;
+    width: 10px; height: 10px;
     border-radius: 50%;
     background: #4caf50;
     box-shadow: 0 0 10px rgba(76,175,80,0.5);
     animation: pulse 2s ease-in-out infinite;
   }
-
   .status-dot.bad { background: var(--shrimp); box-shadow: 0 0 10px rgba(232,115,74,0.5); }
 
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
 
   .status-label {
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 2px;
-    text-transform: uppercase;
+    font-size: 13px; font-weight: 500;
+    letter-spacing: 2px; text-transform: uppercase;
     color: var(--text-dim);
   }
 
-  .top-right {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-
-  .icon-btn {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.08);
-    color: var(--cream);
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-size: 18px;
-  }
-
-  .icon-btn:hover {
-    background: rgba(255,255,255,0.12);
-    transform: translateY(-1px);
-  }
-
-  /* ═══ HEADER ═══ */
-  .header {
-    text-align: center;
-    margin-bottom: 16px;
-  }
+  /* ── HEADER ── */
+  .header { text-align: center; margin-bottom: 16px; }
 
   .header h1 {
     font-family: 'Dela Gothic One', cursive;
-    font-size: 56px;
-    letter-spacing: 6px;
+    font-size: 56px; letter-spacing: 6px;
     color: var(--cream);
     text-shadow: 0 4px 20px rgba(0,0,0,0.3);
     margin-bottom: 4px;
@@ -133,16 +95,13 @@
 
   .header .tagline {
     font-family: 'Pacifico', cursive;
-    font-size: 18px;
-    color: var(--text-dim);
-    font-weight: 400;
+    font-size: 18px; color: var(--text-dim);
   }
 
-  /* ═══ MAIN CONTENT ═══ */
+  /* ── CONTENT ── */
   .content {
     flex: 1;
-    width: 100%;
-    max-width: 1100px;
+    width: 100%; max-width: 1100px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -150,275 +109,282 @@
     position: relative;
   }
 
-  /* ═══ CAMERA ═══ */
-  .camera-wrap {
-    position: relative;
-    width: 380px;
-    height: 320px;
-    flex-shrink: 0;
-  }
+  /* ── CAMERA ── */
+  .camera-wrap { position: relative; width: 380px; height: 320px; flex-shrink: 0; }
 
   .camera-box {
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
     background: var(--card);
     border: 1px solid var(--card-border);
     border-radius: 24px;
-    overflow: hidden;
-    cursor: pointer;
-    position: relative;
+    overflow: hidden; cursor: pointer; position: relative;
     box-shadow: 0 8px 40px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.05);
     transition: box-shadow 0.3s;
   }
-
-  .camera-box:hover {
-    box-shadow: 0 12px 50px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05);
-  }
-
-  .camera-box video,
-  .camera-box img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 24px;
-  }
-
-  .cam-placeholder {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    color: var(--text-dimmer);
-    font-size: 14px;
-  }
-
-  .cam-placeholder svg { opacity: 0.3; }
+  .camera-box:hover { box-shadow: 0 12px 50px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05); }
+  .camera-box img { width:100%; height:100%; object-fit:cover; border-radius:24px; }
 
   .cam-badge {
-    position: absolute;
-    top: 16px;
-    left: 16px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    background: rgba(0,0,0,0.4);
-    backdrop-filter: blur(8px);
-    padding: 6px 14px;
-    border-radius: 8px;
-    color: var(--cream);
-    z-index: 2;
+    position: absolute; top:16px; left:16px;
+    font-size:11px; font-weight:600; letter-spacing:2px; text-transform:uppercase;
+    background: rgba(0,0,0,0.4); backdrop-filter: blur(8px);
+    padding: 6px 14px; border-radius: 8px; color: var(--cream); z-index: 2;
   }
 
   .cam-rec {
-    position: absolute;
-    top: 18px;
-    right: 16px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    font-weight: 500;
-    color: #ef4444;
-    letter-spacing: 1px;
-    z-index: 2;
+    position: absolute; top:18px; right:16px;
+    display: flex; align-items: center; gap:6px;
+    font-size:11px; font-weight:500; color:#ef4444; letter-spacing:1px; z-index:2;
   }
-
   .cam-rec-dot {
-    width: 8px;
-    height: 8px;
-    background: #ef4444;
-    border-radius: 50%;
-    animation: pulse 1.5s ease-in-out infinite;
+    width:8px; height:8px; background:#ef4444;
+    border-radius:50%; animation: pulse 1.5s ease-in-out infinite;
   }
 
-  /* ═══ RIGHT SIDE — SHRIMP + COUNTER ═══ */
-  .right-side {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 8px;
-    position: relative;
-  }
+  /* ── SHRIMP SIDE ── */
+  .right-side { display:flex; flex-direction:column; align-items:flex-end; gap:8px; position:relative; }
 
-  .counter-area {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-    margin-right: 10px;
-  }
-
-  .counter-label {
-    font-family: 'Dela Gothic One', cursive;
-    font-size: 16px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--cream);
-  }
-
-  .counter-number {
-    font-family: 'Dela Gothic One', cursive;
-    font-size: 36px;
-    color: var(--shrimp);
-    text-shadow: 0 0 20px rgba(232,115,74,0.3);
-  }
+  .counter-area { display:flex; align-items:baseline; gap:10px; margin-right:10px; }
+  .counter-label { font-family:'Dela Gothic One',cursive; font-size:16px; letter-spacing:2px; text-transform:uppercase; color:var(--cream); }
+  .counter-number { font-family:'Dela Gothic One',cursive; font-size:36px; color:var(--shrimp); text-shadow:0 0 20px rgba(232,115,74,0.3); }
 
   .fishbowl {
-    width: 360px;
-    height: 360px;
-    position: relative;
-    user-select: none;
-    filter: drop-shadow(0 12px 40px rgba(0,0,0,0.3));
+    width:360px; height:360px; position:relative;
+    user-select:none; filter:drop-shadow(0 12px 40px rgba(0,0,0,0.3));
   }
+  .fishbowl img { width:100%; height:100%; object-fit:contain; position:absolute; top:0; left:0; }
+  .fishbowl .shrimp-frame-1 { opacity:1; }
+  .fishbowl .shrimp-frame-2 { opacity:0; }
 
-  .fishbowl img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-
-  .fishbowl .shrimp-frame-1 { opacity: 1; }
-  .fishbowl .shrimp-frame-2 { opacity: 0; }
-
-  /* Counter below fishbowl */
-
-  /* ═══ BOTTOM BAR ═══ */
+  /* ── BOTTOM BAR ── */
   .bottom-bar {
-    width: 100%;
-    max-width: 1100px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: 20px;
+    width:100%; max-width:1100px;
+    display:flex; align-items:center; justify-content:space-between;
+    padding-top:20px;
   }
 
-  /* Timer */
-  .timer-area {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
+  .timer-area { display:flex; align-items:center; gap:12px; }
 
-  .timer-display {
-    font-family: 'Dela Gothic One', cursive;
-    font-size: 28px;
-    color: var(--cream);
-    letter-spacing: 3px;
-    min-width: 100px;
-  }
+  
 
-  .timer-btns {
-    display: flex;
-    gap: 8px;
-  }
+  .timer-btns { display:flex; gap:8px; }
 
   .t-btn {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 600;
-    font-size: 12px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    padding: 10px 20px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s;
+    font-family:'Outfit',sans-serif; font-weight:600;
+    font-size:12px; letter-spacing:1px; text-transform:uppercase;
+    padding:10px 20px; border-radius:10px; border:none; cursor:pointer; transition:all 0.2s;
   }
+  .t-btn:hover { transform:translateY(-1px); }
+  .t-btn-start { background:var(--shrimp); color:var(--cream); }
+  .t-btn-start:hover { background:var(--shrimp-light); box-shadow:0 4px 15px rgba(232,115,74,0.3); }
+  .t-btn-reset { background:rgba(255,255,255,0.06); color:var(--text-dim); border:1px solid rgba(255,255,255,0.08); }
+  .t-btn-reset:hover { background:rgba(255,255,255,0.1); }
 
-  .t-btn:hover { transform: translateY(-1px); }
-
-  .t-btn-start {
-    background: var(--shrimp);
-    color: var(--cream);
+.posture-text {
+    font-family:'Pacifico',cursive; font-size:15px;
+    color:var(--text-dim); transition:all 0.3s;
+    text-align:center; padding-top:12px; padding-bottom:8px;
   }
-  .t-btn-start:hover { background: var(--shrimp-light); box-shadow: 0 4px 15px rgba(232,115,74,0.3); }
+  .posture-text.bad { color:var(--shrimp); }
 
-  .t-btn-reset {
-    background: rgba(255,255,255,0.06);
-    color: var(--text-dim);
-    border: 1px solid rgba(255,255,255,0.08);
-  }
-  .t-btn-reset:hover { background: rgba(255,255,255,0.1); }
-
-  /* Posture text bottom right */
-  .posture-text {
-    font-family: 'Pacifico', cursive;
-    font-size: 15px;
-    color: var(--text-dim);
-    transition: all 0.3s;
-  }
-
-  .posture-text.bad {
-    color: var(--shrimp);
-  }
-
-  /* ═══ INTERACTIVE BUBBLES ON CLICK ═══ */
+  /* ── CLICK BUBBLES ── */
   .click-bubble {
-    position: absolute;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.15), rgba(255,255,255,0.02));
-    border: 1px solid rgba(255,255,255,0.1);
-    pointer-events: none;
-    z-index: 5;
-    animation: clickBubbleRise 3s ease-out forwards;
+    position:absolute; border-radius:50%;
+    background:radial-gradient(circle at 30% 30%,rgba(255,255,255,0.15),rgba(255,255,255,0.02));
+    border:1px solid rgba(255,255,255,0.1);
+    pointer-events:none; z-index:5;
+    animation:clickBubbleRise 3s ease-out forwards;
   }
-
   @keyframes clickBubbleRise {
-    0% { transform: translateY(0) scale(1); opacity: 0.8; }
-    100% { transform: translateY(-200px) scale(1.5); opacity: 0; }
+    0%   { transform:translateY(0) scale(1); opacity:0.8; }
+    100% { transform:translateY(-200px) scale(1.5); opacity:0; }
   }
 
-  /* ═══ AMBIENT PARTICLES ═══ */
-  .particle {
-    position: absolute;
-    width: 3px;
-    height: 3px;
-    background: rgba(255,255,255,0.15);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 3;
+  /* ════════════════════════════════
+     RADIAL MENU
+     Menu div: fixed 60×60, bottom-right.
+     Main button center = (30, 30) inside div.
+     Each item is 48×48. Half = 24px.
+
+     Arc: -90° (up) → -165° (upper-left), r = 180px, 18.75° steps
+     item top-left = (30+dx-24, 30+dy-24)
+  ═══════════════════════════════════ */
+
+  .radial-menu {
+    position: fixed;
+    bottom: 40px; right: 40px;
+    width: 60px; height: 60px;
+    z-index: 200;
   }
+
+  .radial-main {
+    position: absolute; inset: 0;
+    border-radius: 50%;
+    background: var(--shrimp);
+    border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 22px rgba(232,115,74,0.45);
+    color: var(--cream);
+    transition: box-shadow 0.25s;
+    z-index: 2;
+  }
+  .radial-main:hover { box-shadow: 0 6px 30px rgba(232,115,74,0.6); }
+
+  .radial-main-icon {
+    font-size: 26px; font-weight: 300; line-height: 1;
+    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+    pointer-events: none;
+  }
+  .radial-menu.open .radial-main-icon { transform: rotate(45deg); }
+
+  /* Base state for all items: at their final position, scaled to 0 */
+  .radial-item {
+    position: absolute;
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: rgba(21,34,56,0.93);
+    border: 1px solid rgba(255,255,255,0.14);
+    cursor: pointer;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 2px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.8px; text-transform: uppercase;
+    color: var(--cream);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+    /* animation only: no translate, just scale from item's own center */
+    transform-origin: center;
+    transform: scale(0);
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      transform 0.35s cubic-bezier(0.34,1.56,0.64,1),
+      opacity   0.22s ease,
+      background 0.18s,
+      box-shadow 0.18s;
+  }
+
+  .radial-item svg { width:15px; height:15px; flex-shrink:0; }
+  .ri-sub { font-size:7.5px; color:var(--text-dim); }
+
+  /*
+   Static positions — r=180px, arc -90°→-165°, 18.75° steps, items 48px (half=24px)
+   item top-left = (30 + dx - 24,  30 + dy - 24)
+     FAAH  -90°   : dx=  0,   dy=-180  → left=  6, top=-174
+     VINE  -108.75°: dx=-58,  dy=-171  → left=-52, top=-165
+     SOUND -127.5° : dx=-110, dy=-143  → left=-104, top=-137
+     MUSIC -146.25°: dx=-150, dy=-100  → left=-144, top= -94
+     BREAK -165°   : dx=-174, dy= -47  → left=-168, top= -41
+  */
+  #ri-faah  { left:   6px; top: -174px; }
+  #ri-vine  { left: -52px; top: -165px; }
+  #ri-sound { left: -104px; top: -137px; }
+  #ri-music { left: -144px; top:  -94px; }
+  #ri-break { left: -168px; top:  -41px; }
+
+  /* Open: scale up, staggered */
+  .radial-menu.open #ri-faah  { transform:scale(1); opacity:1; pointer-events:all; transition-delay:  0ms; }
+  .radial-menu.open #ri-vine  { transform:scale(1); opacity:1; pointer-events:all; transition-delay: 40ms; }
+  .radial-menu.open #ri-sound { transform:scale(1); opacity:1; pointer-events:all; transition-delay: 80ms; }
+  .radial-menu.open #ri-music { transform:scale(1); opacity:1; pointer-events:all; transition-delay:120ms; }
+  .radial-menu.open #ri-break { transform:scale(1); opacity:1; pointer-events:all; transition-delay:160ms; }
+
+  .radial-item:hover { background:rgba(255,255,255,0.13); box-shadow:0 6px 22px rgba(0,0,0,0.45); }
+
+  .radial-item.active {
+    background: var(--shrimp);
+    border-color: var(--shrimp-light);
+    box-shadow: 0 4px 18px rgba(232,115,74,0.45);
+  }
+  .radial-item.dimmed { opacity: 0.38 !important; }
+  .radial-item.on-break {
+    background: var(--ocean);
+    border-color: rgba(42,95,143,0.9);
+    box-shadow: 0 4px 18px rgba(42,95,143,0.45);
+  }
+
+  /* ── BREAK DURATION PICKER (appears above radial button) ── */
+  .break-picker {
+    position: fixed;
+    bottom: 118px; right: 12px;
+    z-index: 201;
+    background: rgba(18,30,52,0.96);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.11);
+    border-radius: 20px;
+    padding: 14px 16px 12px;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 10px;
+    opacity: 0; pointer-events: none;
+    transform: translateY(10px);
+    transition: opacity 0.22s, transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.45);
+  }
+  .break-picker.visible { opacity:1; pointer-events:all; transform:translateY(0); }
+
+  .bp-label {
+    font-family:'Outfit',sans-serif; font-size:10px; font-weight:600;
+    letter-spacing:1.5px; text-transform:uppercase; color:var(--text-dim);
+  }
+  .bp-options { display:flex; gap:8px; }
+  .bp-btn {
+    font-family:'Outfit',sans-serif; font-weight:700; font-size:13px;
+    width:50px; height:50px; border-radius:50%;
+    border:1px solid rgba(255,255,255,0.13);
+    background:rgba(255,255,255,0.06); color:var(--cream);
+    cursor:pointer;
+    transition:background 0.18s, box-shadow 0.18s, transform 0.15s;
+  }
+  .bp-btn:hover {
+    background:var(--shrimp);
+    box-shadow:0 4px 18px rgba(232,115,74,0.4);
+    transform:scale(1.1);
+  }
+
+  /* ── BREAK CORNER TIMER (top-right) ── */
+  .break-overlay {
+    position: fixed;
+    top: 20px; right: 20px;
+    z-index: 400;
+    display: flex; align-items: center; gap: 8px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.35s;
+  }
+  .break-overlay.visible { opacity:1; pointer-events:all; }
+
+  .bo-timer {
+    font-family: 'Dela Gothic One', cursive;
+    font-size: 20px; letter-spacing: 3px;
+    color: #ffffff;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+  }
+  .bo-end {
+    background: none; border: none; cursor: pointer;
+    color: rgba(255,255,255,0.45); font-size: 13px; line-height:1;
+    padding: 2px; transition: color 0.15s;
+  }
+  .bo-end:hover { color: #ffffff; }
 </style>
 </head>
 <body>
 
-<!-- Water canvas -->
 <canvas id="water"></canvas>
 
-<!-- App -->
 <div class="app">
-
-  <!-- Top bar -->
   <div class="top-bar">
     <div class="top-left">
       <div class="status-dot" id="status-dot"></div>
       <span class="status-label" id="status-label"></span>
     </div>
-    <div class="top-right">
-      <button class="icon-btn" id="btn-sound" title="Toggle Sound">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-      </button>
-      <button class="icon-btn" id="btn-music" title="Toggle Music">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-      </button>
-    </div>
   </div>
 
-  <!-- Header -->
   <div class="header">
     <h1>SHRIMPIN'</h1>
     <div class="tagline">sit tall, code longer</div>
   </div>
 
-  <!-- Main content -->
   <div class="content">
-    <!-- Camera -->
     <div class="camera-wrap">
       <div class="camera-box" id="camera-box">
         <div class="cam-badge">live</div>
@@ -430,7 +396,6 @@
       </div>
     </div>
 
-    <!-- Right side: counter + fishbowl -->
     <div class="right-side">
       <div class="counter-area">
         <span class="counter-label">Counter:</span>
@@ -443,324 +408,324 @@
     </div>
   </div>
 
-  <!-- Bottom bar -->
-  <div class="bottom-bar">
-    <div class="timer-area">
-      <div class="timer-display" id="timer">00:00</div>
-      <div class="timer-btns">
-        <button class="t-btn t-btn-start" id="btn-start" onclick="toggleTimer()">Start</button>
-        <button class="t-btn t-btn-reset" onclick="resetTimer()">Reset</button>
-      </div>
-    </div>
-    <div class="posture-text" id="posture-text">you're doing great, keep it up ~</div>
+  <p class="posture-text" id="posture-text">you're doing great, keep it up ~</p>
+
+</div><!-- /.app -->
+
+<!-- Radial control menu -->
+<div class="radial-menu" id="radial-menu">
+
+  <button class="radial-main" id="radial-main" title="Controls">
+    <span class="radial-main-icon">+</span>
+  </button>
+
+  <div class="radial-item active" id="ri-faah" title="FAAH alert sound">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+      <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+      <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+    </svg>
+    <span>FAAH</span>
+  </div>
+
+  <div class="radial-item" id="ri-vine" title="Vine Boom alert sound">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+      <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+    </svg>
+    <span>VINE</span>
+  </div>
+
+  <div class="radial-item" id="ri-sound" title="Toggle alert sound">
+    <svg id="icon-snd-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+      <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+    </svg>
+    <svg id="icon-snd-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+      <line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
+    </svg>
+    <span>SOUND</span>
+  </div>
+
+  <div class="radial-item" id="ri-music" title="Toggle music">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 18V5l12-2v13"/>
+      <circle cx="6" cy="18" r="3"/>
+      <circle cx="18" cy="16" r="3"/>
+    </svg>
+    <span>MUSIC</span>
+  </div>
+
+  <div class="radial-item" id="ri-break" title="Take a break">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M17 8h1a4 4 0 0 1 0 8h-1"/>
+      <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/>
+    </svg>
+    <span>BREAK</span>
   </div>
 
 </div>
 
+<!-- Break duration picker (appears above radial button) -->
+<div class="break-picker" id="break-picker">
+  <span class="bp-label">how long?</span>
+  <div class="bp-options">
+    <button class="bp-btn" onclick="startBreakWithDuration(5)">5m</button>
+    <button class="bp-btn" onclick="startBreakWithDuration(10)">10m</button>
+    <button class="bp-btn" onclick="startBreakWithDuration(15)">15m</button>
+  </div>
+</div>
+
+<!-- Break corner timer -->
+<div class="break-overlay" id="break-overlay">
+  <div class="bo-timer" id="bo-timer">05:00</div>
+  <button class="bo-end" onclick="endBreak()" title="End break">✕</button>
+</div>
+
 <script>
-  // ═══ WATER CANVAS ═══
+  // ── WATER CANVAS ──
   const canvas = document.getElementById('water');
   const ctx = canvas.getContext('2d');
   let W, H;
+  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  resize(); window.addEventListener('resize', resize);
 
-  function resize() {
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  // Gentle wave layers
   const waves = [
-    { y: 0.85, amp: 25, freq: 0.008, speed: 0.015, color: 'rgba(30,70,120,0.15)' },
-    { y: 0.88, amp: 20, freq: 0.012, speed: 0.02,  color: 'rgba(40,90,150,0.12)' },
-    { y: 0.91, amp: 15, freq: 0.015, speed: 0.025, color: 'rgba(50,110,170,0.10)' },
+    { y:0.85, amp:25, freq:0.008, speed:0.015, color:'rgba(30,70,120,0.15)' },
+    { y:0.88, amp:20, freq:0.012, speed:0.02,  color:'rgba(40,90,150,0.12)' },
+    { y:0.91, amp:15, freq:0.015, speed:0.025, color:'rgba(50,110,170,0.10)' },
   ];
-
-  // Ambient floating particles
   const particles = [];
-  for (let i = 0; i < 40; i++) {
-    particles.push({
-      x: Math.random() * 2000,
-      y: Math.random() * 1200,
-      r: 1 + Math.random() * 2,
-      speed: 0.2 + Math.random() * 0.5,
-      drift: (Math.random() - 0.5) * 0.3,
-      alpha: 0.05 + Math.random() * 0.12,
-    });
-  }
+  for (let i=0; i<40; i++) particles.push({
+    x:Math.random()*2000, y:Math.random()*1200,
+    r:1+Math.random()*2, speed:0.2+Math.random()*0.5,
+    drift:(Math.random()-.5)*0.3, alpha:0.05+Math.random()*0.12,
+  });
 
   let tick = 0;
-
   function drawWater() {
-    ctx.clearRect(0, 0, W, H);
-    tick++;
-
-    // Draw waves
+    ctx.clearRect(0,0,W,H); tick++;
     waves.forEach(w => {
-      ctx.beginPath();
-      ctx.moveTo(0, H);
-      for (let x = 0; x <= W; x += 4) {
-        const y = H * w.y + Math.sin(x * w.freq + tick * w.speed) * w.amp
-                           + Math.sin(x * w.freq * 0.5 + tick * w.speed * 0.7) * w.amp * 0.5;
-        ctx.lineTo(x, y);
+      ctx.beginPath(); ctx.moveTo(0,H);
+      for (let x=0; x<=W; x+=4) {
+        const y = H*w.y + Math.sin(x*w.freq+tick*w.speed)*w.amp
+                        + Math.sin(x*w.freq*.5+tick*w.speed*.7)*w.amp*.5;
+        ctx.lineTo(x,y);
       }
-      ctx.lineTo(W, H);
-      ctx.closePath();
-      ctx.fillStyle = w.color;
-      ctx.fill();
+      ctx.lineTo(W,H); ctx.closePath();
+      ctx.fillStyle=w.color; ctx.fill();
     });
-
-    // Draw particles
     particles.forEach(p => {
-      p.y -= p.speed;
-      p.x += p.drift + Math.sin(tick * 0.02 + p.x * 0.01) * 0.3;
-      if (p.y < -10) { p.y = H + 10; p.x = Math.random() * W; }
-      if (p.x < -10) p.x = W + 10;
-      if (p.x > W + 10) p.x = -10;
-
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255,255,255,${p.alpha})`;
-      ctx.fill();
+      p.y-=p.speed; p.x+=p.drift+Math.sin(tick*.02+p.x*.01)*.3;
+      if(p.y<-10){p.y=H+10;p.x=Math.random()*W;}
+      if(p.x<-10)p.x=W+10; if(p.x>W+10)p.x=-10;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(255,255,255,${p.alpha})`; ctx.fill();
     });
-
     requestAnimationFrame(drawWater);
   }
   drawWater();
 
-  // ═══ CLICK BUBBLES ═══
-  document.body.addEventListener('click', (e) => {
-    for (let i = 0; i < 3; i++) {
-      const bubble = document.createElement('div');
-      bubble.className = 'click-bubble';
-      const size = 8 + Math.random() * 18;
-      bubble.style.width = size + 'px';
-      bubble.style.height = size + 'px';
-      bubble.style.left = (e.clientX - size/2 + (Math.random()-0.5)*30) + 'px';
-      bubble.style.top = (e.clientY - size/2) + 'px';
-      bubble.style.animationDuration = (2 + Math.random()*2) + 's';
-      document.body.appendChild(bubble);
-      setTimeout(() => bubble.remove(), 4000);
+  // ── CLICK BUBBLES ──
+  document.body.addEventListener('click', e => {
+    for(let i=0;i<3;i++){
+      const b=document.createElement('div'); b.className='click-bubble';
+      const s=8+Math.random()*18;
+      b.style.cssText=`width:${s}px;height:${s}px;left:${e.clientX-s/2+(Math.random()-.5)*30}px;top:${e.clientY-s/2}px;animation-duration:${2+Math.random()*2}s`;
+      document.body.appendChild(b); setTimeout(()=>b.remove(),4000);
     }
   });
 
-  // ═══ SHRIMP ANIMATION (alternate frames) ═══
-  const frame1 = document.getElementById('frame1');
-  const frame2 = document.getElementById('frame2');
-  let currentFrame = 1;
+  // ── SHRIMP ANIMATION ──
+  const frame1=document.getElementById('frame1'), frame2=document.getElementById('frame2');
+  let cf=1;
+  setInterval(()=>{
+    if(cf===1){frame1.style.opacity='0';frame2.style.opacity='1';cf=2;}
+    else{frame1.style.opacity='1';frame2.style.opacity='0';cf=1;}
+  },600);
 
-  setInterval(() => {
-    if (currentFrame === 1) {
-      frame1.style.opacity = '0';
-      frame2.style.opacity = '1';
-      currentFrame = 2;
-    } else {
-      frame1.style.opacity = '1';
-      frame2.style.opacity = '0';
-      currentFrame = 1;
-    }
-  }, 600);
-
-  // Fishbowl gentle bob
-  const fishbowl = document.getElementById('fishbowl');
-  let bobTick = 0;
-  function bobFishbowl() {
-    bobTick += 0.02;
-    const y = Math.sin(bobTick) * 6;
-    const r = Math.sin(bobTick * 0.7) * 1.5;
-    fishbowl.style.transform = `translateY(${y}px) rotate(${r}deg)`;
+  const fishbowl=document.getElementById('fishbowl');
+  let bt=0;
+  function bobFishbowl(){
+    bt+=0.02;
+    fishbowl.style.transform=`translateY(${Math.sin(bt)*6}px) rotate(${Math.sin(bt*.7)*1.5}deg)`;
     requestAnimationFrame(bobFishbowl);
   }
   bobFishbowl();
 
-  // ═══ TIMER ═══
-  let timerRunning = false, timerSeconds = 0, timerInterval = null;
-  let shrimpOffset = 0, lastBackendCount = 0;
+  // ── TIMER ──
+  let timerRunning=false, timerSeconds=0, timerInterval=null;
+  let shrimpOffset=0, lastBackendCount=0;
+  let onBreak=false, breakEndTime=0;
 
-  function toggleTimer() {
-    const btn = document.getElementById('btn-start');
-    if (timerRunning) {
-      clearInterval(timerInterval);
-      timerRunning = false;
-      btn.textContent = 'Start';
-    } else {
-      timerInterval = setInterval(() => { timerSeconds++; updateTimer(); }, 1000);
-      timerRunning = true;
-      btn.textContent = 'Pause';
-    }
+  function toggleTimer(){
+    const btn=document.getElementById('btn-start');
+    if(timerRunning){clearInterval(timerInterval);timerRunning=false;btn.textContent='Start';}
+    else{timerInterval=setInterval(()=>{timerSeconds++;updateTimer();},1000);timerRunning=true;btn.textContent='Pause';}
   }
-
-  function resetTimer() {
-    clearInterval(timerInterval);
-    timerRunning = false;
-    timerSeconds = 0;
-    shrimpOffset = lastBackendCount;
+  function resetTimer(){
+    clearInterval(timerInterval); timerRunning=false; timerSeconds=0;
+    shrimpOffset=lastBackendCount; shrimpCount=0;
     updateTimer();
-    document.getElementById('counter').textContent = '00';
-    document.getElementById('btn-start').textContent = 'Start';
-    const pt = document.getElementById('posture-text');
-    pt.textContent = "you're doing great, keep it up ~";
-    pt.classList.remove('bad');
+    document.getElementById('counter').textContent='00';
+    const btnStart=document.getElementById('btn-start');
+    if(btnStart) btnStart.textContent='Start';
+    const pt=document.getElementById('posture-text');
+    pt.textContent="you're doing great, keep it up ~"; pt.classList.remove('bad');
     document.getElementById('status-dot').classList.remove('bad');
-    document.getElementById('status-label').textContent = 'good posture';
+    document.getElementById('status-label').textContent='';
+  }
+  function updateTimer(){
+    const m=Math.floor(timerSeconds/60).toString().padStart(2,'0');
+    const s=(timerSeconds%60).toString().padStart(2,'0');
+    const el=document.getElementById('timer');
+    if(el) el.textContent=`${m}:${s}`;
   }
 
-  function updateTimer() {
-    const m = Math.floor(timerSeconds / 60).toString().padStart(2, '0');
-    const s = (timerSeconds % 60).toString().padStart(2, '0');
-    document.getElementById('timer').textContent = `${m}:${s}`;
-  }
-
-  // ═══ COUNTER (simulate with spacebar or click fishbowl) ═══
-  let shrimpCount = 0;
-
-  function triggerShrimp() {
+  // ── COUNTER ──
+  let shrimpCount=0;
+  function triggerShrimp(){
     shrimpCount++;
-    document.getElementById('counter').textContent = shrimpCount.toString().padStart(2, '0');
-
-    // Flash status
-    const dot = document.getElementById('status-dot');
-    const label = document.getElementById('status-label');
-    const postureText = document.getElementById('posture-text');
-
-    dot.classList.add('bad');
-    label.textContent = "shrimpin' detected!";
-    postureText.textContent = "straighten up, little shrimp!";
-    postureText.classList.add('bad');
-
-    setTimeout(() => {
-      dot.classList.remove('bad');
-      label.textContent = '';
-      postureText.textContent = "you're doing great, keep it up ~";
-      postureText.classList.remove('bad');
-    }, 2500);
-  }
-
-  fishbowl.addEventListener('click', (e) => {
-    e.stopPropagation();
-    triggerShrimp();
-  });
-  fishbowl.style.cursor = 'pointer';
-
-  // Spacebar also triggers for demo
-  document.addEventListener('keydown', (e) => {
-    if (e.code === 'Space' && e.target === document.body) {
-      e.preventDefault();
-      triggerShrimp();
+    // Only drive the counter display manually when backend isn't connected
+    if(lastBackendCount===0){
+      document.getElementById('counter').textContent=shrimpCount.toString().padStart(2,'0');
     }
-  });
-
-  // ═══ CAMERA — stream from Python detector ═══
-  document.getElementById('cam-rec').style.display = 'flex';
-
-  // Sound toggle handled in polling script below
-
-  // ═══ MUSIC BUTTON ═══
-  const music = new Audio('music.mp3');
-  music.loop = true;
-  let musicPlaying = false;
-
-  document.getElementById('btn-music').addEventListener('click', (e) => {
-    e.stopPropagation();
-    const btn = e.currentTarget;
-    if (musicPlaying) {
-      music.pause();
-      musicPlaying = false;
-      btn.style.opacity = '0.4';
-    } else {
-      music.play();
-      musicPlaying = true;
-      btn.style.opacity = '1';
-    }
-  });
-</script>
-
-<script>
-  // ═══ SOUND TOGGLE (faah / vine) ═══
-  const sounds = {
-    faah: new Audio('faah.mp3'),
-    vine: new Audio('vine-boom.mp3'),
-  };
-  let selectedSound = 'faah';
-  let soundEnabled  = true;
-
-  document.getElementById('btn-sound').addEventListener('click', (e) => {
-    e.stopPropagation();
-    soundEnabled = !soundEnabled;
-    e.currentTarget.style.opacity = soundEnabled ? '1' : '0.4';
-  }, true);
-
-  // Inject faah/vine buttons next to the sound icon
-  const topRight = document.querySelector('.top-right');
-  topRight.insertAdjacentHTML('afterbegin', `
-    <button class="t-btn t-btn-start" id="btn-faah" style="padding:6px 14px;font-size:12px;" onclick="selectSound('faah')">FAAH</button>
-    <button class="t-btn t-btn-reset" id="btn-vine" style="padding:6px 14px;font-size:12px;" onclick="selectSound('vine')">VINE</button>
-  `);
-
-  function selectSound(name) {
-    selectedSound = name;
-    document.getElementById('btn-faah').className = name === 'faah' ? 't-btn t-btn-start' : 't-btn t-btn-reset';
-    document.getElementById('btn-vine').className = name === 'vine' ? 't-btn t-btn-start' : 't-btn t-btn-reset';
-    document.getElementById('btn-faah').style.cssText = 'padding:6px 14px;font-size:12px;';
-    document.getElementById('btn-vine').style.cssText = 'padding:6px 14px;font-size:12px;';
+    const dot=document.getElementById('status-dot'),label=document.getElementById('status-label'),pt=document.getElementById('posture-text');
+    dot.classList.add('bad'); label.textContent="shrimpin' detected!";
+    pt.textContent="straighten up, little shrimp!"; pt.classList.add('bad');
+    setTimeout(()=>{dot.classList.remove('bad');label.textContent='';pt.textContent="you're doing great, keep it up ~";pt.classList.remove('bad');},2500);
   }
 
-  function playAlert() {
-    if (!soundEnabled) return;
-    const s = sounds[selectedSound];
-    s.currentTime = 0;
-    s.play().catch(() => {});
+  fishbowl.addEventListener('click',e=>{e.stopPropagation();triggerShrimp();});
+  fishbowl.style.cursor='pointer';
+  document.addEventListener('keydown',e=>{if(e.code==='Space'&&e.target===document.body){e.preventDefault();triggerShrimp();}});
+  document.getElementById('cam-rec').style.display='flex';
+
+  // ── AUDIO ──
+  const sounds={faah:new Audio('faah.mp3'),vine:new Audio('vine-boom.mp3')};
+  let selectedSound='faah', soundEnabled=true;
+  const music=new Audio('music.mp3'); music.loop=true; let musicPlaying=false;
+
+  function playAlert(){
+    if(!soundEnabled)return;
+    const s=sounds[selectedSound]; s.currentTime=0; s.play().catch(()=>{});
   }
 
-  // ═══ POLL PYTHON DETECTOR ═══
-  let lastHunching = false;
+  // ── RADIAL MENU ──
+  const radialMenu=document.getElementById('radial-menu');
+  const radialMainBtn=document.getElementById('radial-main');
+  let menuOpen=false;
 
-  setInterval(async () => {
-    try {
-      const res  = await fetch('http://localhost:8765/status');
-      const data = await res.json();
+  const breakPicker=document.getElementById('break-picker');
+  const breakOverlay=document.getElementById('break-overlay');
+  let breakCountdownInterval=null;
 
-      const dot   = document.getElementById('status-dot');
-      const label = document.getElementById('status-label');
-      const pt    = document.getElementById('posture-text');
-      const tl    = document.querySelector('.top-left');
+  function openMenu(){menuOpen=true;radialMenu.classList.add('open');}
+  function closeMenu(){menuOpen=false;radialMenu.classList.remove('open');}
 
-      tl.style.visibility = 'visible';
+  radialMainBtn.addEventListener('click',()=>menuOpen?closeMenu():openMenu());
+  document.addEventListener('click',e=>{
+    if(menuOpen&&!radialMenu.contains(e.target))closeMenu();
+    if(breakPicker.classList.contains('visible')&&!breakPicker.contains(e.target)&&!document.getElementById('ri-break').contains(e.target))
+      breakPicker.classList.remove('visible');
+  });
 
-      if (!data.calibrated) {
-        const pct = Math.round((data.cal_progress || 0) * 100);
-        const cd  = data.countdown > 0 ? `sit straight... ${Math.ceil(data.countdown)}` : `calibrating ${pct}%`;
-        dot.classList.remove('bad');
-        label.textContent = cd;
-        pt.textContent    = "hold your best posture ~";
-        pt.classList.remove('bad');
+  // FAAH / VINE
+  function selectSound(name){
+    selectedSound=name;
+    document.getElementById('ri-faah').classList.toggle('active',name==='faah');
+    document.getElementById('ri-vine').classList.toggle('active',name==='vine');
+  }
+  document.getElementById('ri-faah').addEventListener('click',()=>selectSound('faah'));
+  document.getElementById('ri-vine').addEventListener('click',()=>selectSound('vine'));
+
+  // Sound toggle
+  const riSound=document.getElementById('ri-sound');
+  riSound.addEventListener('click',()=>{
+    soundEnabled=!soundEnabled;
+    document.getElementById('icon-snd-on').style.display=soundEnabled?'':'none';
+    document.getElementById('icon-snd-off').style.display=soundEnabled?'none':'';
+    riSound.classList.toggle('dimmed',!soundEnabled);
+  });
+
+  // Music toggle
+  const riMusic=document.getElementById('ri-music');
+  riMusic.addEventListener('click',()=>{
+    if(musicPlaying){music.pause();musicPlaying=false;riMusic.classList.remove('active');}
+    else{music.play();musicPlaying=true;riMusic.classList.add('active');}
+  });
+
+  // Break
+  const riBreak=document.getElementById('ri-break');
+
+  function startBreakWithDuration(mins){
+    breakPicker.classList.remove('visible');
+    onBreak=true; breakEndTime=Date.now()+mins*60*1000;
+    riBreak.classList.add('on-break');
+    document.getElementById('posture-text').textContent=`taking a ${mins}min break ~`;
+    clearInterval(breakCountdownInterval);
+    tickBreak();
+    breakCountdownInterval=setInterval(tickBreak,1000);
+    breakOverlay.classList.add('visible');
+  }
+
+  function tickBreak(){
+    const rem=Math.max(0,breakEndTime-Date.now());
+    const m=Math.floor(rem/60000).toString().padStart(2,'0');
+    const s=Math.floor((rem%60000)/1000).toString().padStart(2,'0');
+    document.getElementById('bo-timer').textContent=`${m}:${s}`;
+    if(rem===0) endBreak();
+  }
+
+  function endBreak(){
+    clearInterval(breakCountdownInterval);
+    onBreak=false; lastHunching=false;
+    riBreak.classList.remove('on-break');
+    breakOverlay.classList.remove('visible');
+  }
+
+  riBreak.addEventListener('click',()=>{
+    if(onBreak){ endBreak(); closeMenu(); }
+    else { closeMenu(); breakPicker.classList.add('visible'); }
+  });
+
+  // ── POLL PYTHON DETECTOR ──
+  let lastHunching=false;
+  setInterval(async()=>{
+    try{
+      const res=await fetch('http://localhost:8765/status');
+      const data=await res.json();
+
+      if(onBreak){ return; }
+
+      const dot=document.getElementById('status-dot');
+      const label=document.getElementById('status-label');
+      const pt=document.getElementById('posture-text');
+      document.querySelector('.top-left').style.visibility='visible';
+
+      if(!data.calibrated){
+        const pct=Math.round((data.cal_progress||0)*100);
+        const cd=data.countdown>0?`sit straight... ${Math.ceil(data.countdown)}`:`calibrating ${pct}%`;
+        dot.classList.remove('bad'); label.textContent=cd;
+        pt.textContent="hold your best posture ~"; pt.classList.remove('bad');
         return;
       }
 
-      lastBackendCount = data.count || 0;
+      lastBackendCount=data.count||0;
+      document.getElementById('counter').textContent=Math.max(0,lastBackendCount-shrimpOffset).toString().padStart(2,'0');
 
-      if (!timerRunning) return;
-
-      const display = Math.max(0, lastBackendCount - shrimpOffset);
-      document.getElementById('counter').textContent = display.toString().padStart(2, '0');
-
-      if (data.is_hunching) {
-        dot.classList.add('bad');
-        label.textContent = "shrimpin' detected!";
-        pt.textContent    = "straighten up, little shrimp!";
-        pt.classList.add('bad');
-        if (!lastHunching) playAlert();
+      if(data.is_hunching){
+        dot.classList.add('bad'); label.textContent="shrimpin' detected!";
+        pt.textContent="straighten up, little shrimp!"; pt.classList.add('bad');
+        if(!lastHunching)playAlert();
       } else {
-        dot.classList.remove('bad');
-        label.textContent = 'good posture';
-        pt.textContent    = "you're doing great, keep it up ~";
-        pt.classList.remove('bad');
+        dot.classList.remove('bad'); label.textContent='good posture';
+        pt.textContent="you're doing great, keep it up ~"; pt.classList.remove('bad');
       }
-      lastHunching = data.is_hunching;
-    } catch (_) {}
-  }, 500);
+      lastHunching=data.is_hunching;
+    }catch(_){}
+  },500);
 </script>
-
 </body>
 </html>
