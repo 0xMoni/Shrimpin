@@ -1,0 +1,236 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 320px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #1e3150 0%, #152238 100%);
+  color: #f5f0e8;
+  padding: 0;
+}
+
+.container {
+  padding: 20px;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.icon {
+  font-size: 48px;
+  margin-bottom: 8px;
+}
+
+h1 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* Status Card */
+.status-card {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #666;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.dot.active { background: #4CAF50; }
+.dot.inactive { background: #666; }
+.dot.error { background: #F44336; }
+
+#status-text {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Control Cards */
+.control-card {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.control-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.control-row:last-child {
+  margin-bottom: 0;
+}
+
+.control-row label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Toggle Switch */
+.toggle-switch {
+  position: relative;
+  width: 48px;
+  height: 26px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.2);
+  transition: 0.3s;
+  border-radius: 26px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #E8734A;
+}
+
+input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
+/* Volume Control */
+.volume-control {
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.volume-control label {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 8px;
+  color: rgba(245, 240, 232, 0.7);
+}
+
+.volume-slider-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+#volume-slider {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  outline: none;
+  -webkit-appearance: none;
+}
+
+#volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #E8734A;
+  cursor: pointer;
+}
+
+#volume-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #E8734A;
+  cursor: pointer;
+  border: none;
+}
+
+#volume-value {
+  font-size: 13px;
+  font-weight: 600;
+  min-width: 40px;
+  text-align: right;
+}
+
+/* Info Card */
+.info-card {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+}
+
+.info-row .label {
+  font-size: 13px;
+  color: rgba(245, 240, 232, 0.7);
+}
+
+.info-row .value {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+#backend-status.online {
+  color: #4CAF50;
+}
+
+#backend-status.offline {
+  color: #F44336;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding-top: 12px;
+}
+
+.footer p {
+  font-size: 12px;
+  color: rgba(245, 240, 232, 0.5);
+}

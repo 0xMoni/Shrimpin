@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Shrimpin' Settings</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="icon">🦐</div>
+      <h1>Shrimpin' Detector</h1>
+    </div>
+
+    <!-- Status -->
+    <div class="status-card">
+      <div class="status-indicator">
+        <div id="status-dot" class="dot"></div>
+        <span id="status-text">Checking...</span>
+      </div>
+    </div>
+
+    <!-- Main Toggle -->
+    <div class="control-card">
+      <div class="control-row">
+        <label for="toggle-detection">Detection</label>
+        <div class="toggle-switch">
+          <input type="checkbox" id="toggle-detection">
+          <span class="slider"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Volume Control -->
+    <div class="control-card">
+      <div class="control-row">
+        <label for="toggle-sound">Sound Alerts</label>
+        <div class="toggle-switch">
+          <input type="checkbox" id="toggle-sound">
+          <span class="slider"></span>
+        </div>
+      </div>
+      <div class="volume-control">
+        <label for="volume-slider">Volume</label>
+        <div class="volume-slider-container">
+          <input type="range" id="volume-slider" min="0" max="100" value="50">
+          <span id="volume-value">50%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detection Info -->
+    <div class="info-card">
+      <div class="info-row">
+        <span class="label">Mode</span>
+        <span class="value">Browser-Based</span>
+      </div>
+      <div class="info-row">
+        <span class="label">Engine</span>
+        <span class="value">MediaPipe Pose</span>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>Catch yourself shrimping!</p>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Shrimpin' Widget</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      -webkit-app-region: drag;
+      cursor: move;
+    }
+
+    #widget {
+      width: 260px;
+      background: linear-gradient(135deg, rgba(30, 49, 80, 0.98) 0%, rgba(21, 34, 56, 0.98) 100%);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .brand {
+      text-align: center;
+      font-size: 16px;
+      font-weight: 700;
+      color: #E8734A;
+      margin-bottom: 20px;
+    }
+
+    .shrimp-ring {
+      width: 160px;
+      height: 160px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(30, 49, 80, 0.8), rgba(21, 34, 56, 0.6));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+
+    .shrimp-container {
+      width: 85%;
+      height: 85%;
+      position: relative;
+    }
+
+    .shrimp-frame {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      opacity: 0;
+      transition: opacity 0.5s;
+      filter: brightness(1.1) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+    }
+
+    .shrimp-frame.active { opacity: 1; }
+
+    .counter-box {
+      background: linear-gradient(135deg, rgba(30, 49, 80, 0.6), rgba(21, 34, 56, 0.4));
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .counter {
+      font-size: 56px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1;
+      letter-spacing: -2px;
+    }
+
+    .counter-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(245, 240, 232, 0.4);
+      margin-top: 4px;
+    }
+
+    .status-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #666;
+      flex-shrink: 0;
+    }
+
+    .status-dot.good { background: #4CAF50; }
+    .status-dot.bad { background: #E8734A; }
+    .status-dot.calibrating { background: #FFC107; }
+    .status-dot.error { background: #F44336; }
+
+    .status-message {
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(245, 240, 232, 0.7);
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="widget">
+    <div class="brand">🦐 Shrimpin'</div>
+
+    <div class="shrimp-ring">
+      <div class="shrimp-container">
+        <img id="frame1" class="shrimp-frame active" src="shrimp1.png" alt="Shrimp">
+        <img id="frame2" class="shrimp-frame" src="shrimp2.png" alt="Shrimp">
+      </div>
+    </div>
+
+    <div class="counter-box">
+      <div id="counter" class="counter">0</div>
+      <div class="counter-label">slouches</div>
+    </div>
+
+    <div class="status-bar">
+      <div id="status-dot" class="status-dot"></div>
+      <div id="status-message" class="status-message">Connecting...</div>
+    </div>
+  </div>
+
+  <script>
+    // Animate shrimp
+    let frame = 1;
+    setInterval(() => {
+      if (frame === 1) {
+        document.getElementById('frame1').classList.remove('active');
+        document.getElementById('frame2').classList.add('active');
+        frame = 2;
+      } else {
+        document.getElementById('frame1').classList.add('active');
+        document.getElementById('frame2').classList.remove('active');
+        frame = 1;
+      }
+    }, 600);
+
+    // Poll backend
+    async function poll() {
+      try {
+        const res = await fetch('http://localhost:8765/status');
+        const data = await res.json();
+
+        const counter = document.getElementById('counter');
+        const dot = document.getElementById('status-dot');
+        const msg = document.getElementById('status-message');
+
+        counter.textContent = data.count || 0;
+
+        if (!data.calibrated) {
+          const progress = Math.round((data.cal_progress || 0) * 100);
+          const text = data.countdown > 0 ? `Sit straight... ${Math.ceil(data.countdown)}` : `Calibrating ${progress}%`;
+          msg.textContent = text;
+          dot.className = 'status-dot calibrating';
+        } else if (data.is_hunching) {
+          msg.textContent = 'Straighten up!';
+          dot.className = 'status-dot bad';
+        } else {
+          msg.textContent = 'Good posture';
+          dot.className = 'status-dot good';
+        }
+      } catch (e) {
+        document.getElementById('status-message').textContent = 'Backend offline';
+        document.getElementById('status-dot').className = 'status-dot error';
+      }
+    }
+
+    setInterval(poll, 500);
+    poll();
+  </script>
+</body>
+</html>
