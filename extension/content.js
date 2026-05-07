@@ -26,7 +26,7 @@
       volume: 0.5,
       soundEnabled: true
     },
-    position: { bottom: 20, right: 20 },
+    position: { bottom: 40, right: 20 },
     onBreak: false,
     breakEndTime: 0,
     breakInterval: null
@@ -38,7 +38,7 @@
 
   const shadowHost = document.createElement('div');
   shadowHost.id = 'shrimpin-root';
-  shadowHost.style.cssText = 'all: initial; position: fixed !important; bottom: 20px !important; right: 20px !important; z-index: 2147483647 !important; pointer-events: auto !important;';
+  shadowHost.style.cssText = 'all: initial; position: fixed !important; bottom: 40px !important; right: 20px !important; z-index: 2147483647 !important; pointer-events: auto !important;';
 
   const shadowRoot = shadowHost.attachShadow({ mode: 'open' });
 
@@ -48,6 +48,7 @@
 
   const widgetHTML = `
     <div id="widget">
+      <canvas id="water-canvas"></canvas>
       <div class="shrimp-bowl">
         <img id="frame1" class="shrimp active" alt="Shrimp">
         <img id="frame2" class="shrimp" alt="Shrimp">
@@ -131,17 +132,35 @@
       box-sizing: border-box;
     }
 
-    #widget {
-      width: 200px;
-      background: linear-gradient(135deg, rgba(30, 49, 80, 0.98), rgba(21, 34, 56, 0.98));
+    #water-canvas {
+      position: absolute !important;
+      inset: 0;
+      width: 100%;
+      height: 100%;
       border-radius: 20px;
-      padding: 20px;
+      pointer-events: none;
+      z-index: 1 !important;
+    }
+
+    #widget {
+      position: relative;
+      width: 280px;
+      background: linear-gradient(135deg, rgba(30, 49, 80, 0.85), rgba(21, 34, 56, 0.85));
+      border-radius: 20px;
+      padding: 20px 20px 25px;
       box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
       border: 1px solid rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(10px);
       cursor: grab;
       user-select: none;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    #widget > *:not(#water-canvas) {
+      position: relative;
+      z-index: 10;
     }
 
     #widget:active {
@@ -149,22 +168,24 @@
     }
 
     .shrimp-bowl {
-      width: 120px;
-      height: 120px;
-      margin: 0 auto 16px;
+      width: 240px;
+      height: 240px;
+      margin: 10px auto 20px;
       border-radius: 50%;
-      background: linear-gradient(135deg, rgba(30, 49, 80, 0.8), rgba(21, 34, 56, 0.6));
+      background: transparent;
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
-      overflow: hidden;
+      z-index: 10;
     }
 
     .shrimp {
       position: absolute;
-      width: 80%;
-      height: 80%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       object-fit: contain;
       opacity: 0;
       transition: opacity 0.4s ease;
@@ -181,6 +202,8 @@
       color: #fff;
       margin-bottom: 12px;
       text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      position: relative;
+      z-index: 10;
     }
 
     .status {
@@ -190,6 +213,8 @@
       gap: 8px;
       font-size: 13px;
       color: rgba(245, 240, 232, 0.7);
+      position: relative;
+      z-index: 10;
     }
 
     .dot {
@@ -211,19 +236,22 @@
 
     .start-button {
       width: 100%;
-      padding: 12px;
-      margin-top: 12px;
+      display: block;
+      padding: 14px;
+      margin: 14px auto 0;
       background: #E8734A;
       color: white;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 700;
       cursor: pointer;
       transition: all 0.2s;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
+      position: relative;
+      z-index: 20;
     }
 
     .start-button:hover {
@@ -572,6 +600,9 @@
 
     // Setup radial menu
     setupRadialMenu();
+
+    // Start water animation
+    startWaterAnimation();
   }
 
   // ============================================================================
@@ -579,7 +610,10 @@
   // ============================================================================
 
   function applyPosition() {
-    shadowHost.style.setProperty('bottom', state.position.bottom + 'px', 'important');
+    const widgetHeight = 440;
+    const maxBottom = window.innerHeight - widgetHeight - 10;
+    const safeBottom = Math.min(state.position.bottom, Math.max(10, maxBottom));
+    shadowHost.style.setProperty('bottom', safeBottom + 'px', 'important');
     shadowHost.style.setProperty('right', state.position.right + 'px', 'important');
   }
 
@@ -817,6 +851,88 @@
       state.pollInterval = setInterval(pollBackend, 500);
       pollBackend();
     }
+  }
+
+  // ============================================================================
+  // WATER ANIMATION
+  // ============================================================================
+
+  function startWaterAnimation() {
+    const canvas = shadowRoot.getElementById('water-canvas');
+    const ctx = canvas.getContext('2d');
+
+    // Set canvas size to match widget
+    const resizeCanvas = () => {
+      const widget = shadowRoot.getElementById('widget');
+      canvas.width = widget.offsetWidth;
+      canvas.height = widget.offsetHeight;
+    };
+    resizeCanvas();
+
+    const waves = [
+      { y: 0.82, amp: 12, freq: 0.008, speed: 0.015, color: 'rgba(30,70,120,0.25)' },
+      { y: 0.86, amp: 10, freq: 0.012, speed: 0.02, color: 'rgba(40,90,150,0.20)' },
+      { y: 0.90, amp: 8, freq: 0.015, speed: 0.025, color: 'rgba(50,110,170,0.18)' },
+    ];
+
+    const particles = [];
+    for (let i = 0; i < 20; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: 1 + Math.random() * 2,
+        speed: 0.2 + Math.random() * 0.4,
+        drift: (Math.random() - 0.5) * 0.3,
+        alpha: 0.1 + Math.random() * 0.2,
+      });
+    }
+
+    let tick = 0;
+
+    function drawWater() {
+      const W = canvas.width;
+      const H = canvas.height;
+
+      ctx.clearRect(0, 0, W, H);
+      tick++;
+
+      // Draw waves
+      waves.forEach(w => {
+        ctx.beginPath();
+        ctx.moveTo(0, H);
+        for (let x = 0; x <= W; x += 3) {
+          const y = H * w.y + Math.sin(x * w.freq + tick * w.speed) * w.amp
+                    + Math.sin(x * w.freq * 0.5 + tick * w.speed * 0.7) * w.amp * 0.5;
+          ctx.lineTo(x, y);
+        }
+        ctx.lineTo(W, H);
+        ctx.closePath();
+        ctx.fillStyle = w.color;
+        ctx.fill();
+      });
+
+      // Draw particles
+      particles.forEach(p => {
+        p.y -= p.speed;
+        p.x += p.drift + Math.sin(tick * 0.02 + p.x * 0.01) * 0.2;
+
+        if (p.y < -10) {
+          p.y = H + 10;
+          p.x = Math.random() * W;
+        }
+        if (p.x < -10) p.x = W + 10;
+        if (p.x > W + 10) p.x = -10;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${p.alpha})`;
+        ctx.fill();
+      });
+
+      requestAnimationFrame(drawWater);
+    }
+
+    drawWater();
   }
 
   // ============================================================================
